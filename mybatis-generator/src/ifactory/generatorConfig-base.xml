@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+    PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+    "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+
+	
+<context id="Informix" targetRuntime="MyBatis3">
+
+ 		<!--实体类增加序列化-->
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin" ></plugin>
+       	<!-- 实体toString -->
+        <plugin type="org.mybatis.generator.plugins.ToStringPlugin" />
+
+        <!-- 去除自动生成的注释 -->
+        <commentGenerator>
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+        	<property name="suppressAllComments" value="true" />
+            <property name="suppressDate" value="false"></property>
+            <property name="javaFileEncoding" value="utf-8"/>
+            <property name="autoDelimitKeywords" value="false" />
+            <!-- 格式化java代码 -->
+	        <property name="javaFormatter" value="org.mybatis.generator.api.dom.DefaultJavaFormatter" />
+	        <!-- 格式化XML代码 -->
+	        <property name="xmlFormatter" value="org.mybatis.generator.api.dom.DefaultXmlFormatter" />
+        </commentGenerator>
+
+    <!--数据库连接的信息：驱动类、连接地址、用户名、密码 -->
+    <jdbcConnection  driverClass="com.informix.jdbc.IfxDriver"
+                    connectionURL="jdbc:informix-sqli://s数据库IP:端口/elite_mis:INFORMIXSERVER=cs_dbs;DB_LOCALE=en_US.8859-1;
+                    CLIENT_LOCALE=en_US.utf8;NEWCODESET=utf8,8859-1,819;
+                    charset=en_US.utf8;database=数据库名;"
+                    userId="root"
+                    password="root">
+    </jdbcConnection>
+
+    <!--   类型转换   默认false，把JDBC DECIMAL 和 NUMERIC 类型解析为 Integer true，把JDBC DECIMAL 和
+        NUMERIC 类型解析为java.math.BigDecimal -->
+ 	 <javaTypeResolver>
+        <property name="forceBigDecimals" value="false" />
+        <property name="useJSR310Types" value="true"/>
+    </javaTypeResolver> 
+		
+    <!-- targetProject:生成PO类的位置 -->
+    <javaModelGenerator targetPackage="cn.myccit.ifactory.mybatis.pojo"
+                        targetProject="src">
+        <!-- enableSubPackages:是否让schema作为包的后缀 -->
+        <property name="enableSubPackages" value="false" />
+        <!-- 从数据库返回的值被清理前后的空格 -->
+        <property name="trimStrings" value="true" />
+    </javaModelGenerator>
+
+    <!-- targetPackage:mapper映射文件生成的位置 -->
+    <sqlMapGenerator targetPackage="cn.myccit.ifactory.mybatis.mapper"
+                     targetProject="src">
+        <property name="enableSubPackages" value="false" />
+    </sqlMapGenerator>
+
+
+    <!--  生成DAO的包名和位置，这里配置将生成的dao类放在src/dao这个包下  -->
+    <javaClientGenerator type="ANNOTATEDMAPPER"
+                         targetPackage="cn.myccit.ifactory.mybatis.pojo"
+                         targetProject="src">
+        <property name="enableSubPackages" value="false" />
+    </javaClientGenerator>
+
+    <!-- 指定数据库表 -->
+    <!-- domainObjectName 指明实体名称    mapperName  指明Mapper类名称-->
+       <table schema="" tableName="bp_deviation"   
+              domainObjectName="BpDeviation"
+              mapperName="BpDeviationDao"
+              >
+             <!-- 必须放到列前面 -->
+            <generatedKey column="pid" sqlStatement="Informix" identity="true"/>
+            <!-- 大字段类型转为String，例如blob, lvarchar -->
+            <columnOverride column="deviation_content" javaType="java.lang.String" jdbcType="VARCHAR" /> 
+			<columnOverride column="deviation_reason" javaType="java.lang.String" jdbcType="VARCHAR" /> 
+			<columnOverride column="deviation_handle" javaType="java.lang.String" jdbcType="VARCHAR" /> 
+			<columnOverride column="qa_handle" javaType="java.lang.String" jdbcType="VARCHAR" />
+			<columnOverride column="quality_master_handle" javaType="java.lang.String" jdbcType="VARCHAR" />
+			<!-- 数据库的datatime to year second 转成timeStamp-->
+			<columnOverride column="deviation_handle_time" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP" />
+			<columnOverride column="qa_handle_time" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP" />
+			<columnOverride column="quality_master_handle_time" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP" />
+			
+
+			
+        </table>
+
+</context>
+</generatorConfiguration>
